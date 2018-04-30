@@ -1,0 +1,71 @@
+body {
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #fff;
+}
+
+.container {
+	background: #1976d2;
+	align-items: center;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	font-family: 'Roboto', sans-serif;
+	height: 100vh;
+	letter-spacing: 0.08em;
+	line-height: 1.7em;
+	padding: 3rem 1rem;
+}
+
+.minicontainer {
+	position: fixed !important;
+	position: absolute;
+	right: 0;
+	bottom: 50px;
+}
+
+.howitworks {
+	background: #424242;
+	align-items: center;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	font-family: 'Roboto', sans-serif;
+	min-height: 100vh;
+	letter-spacing: 0.08em;
+	line-height: 1.7em;
+	padding: 3rem 1rem;
+}
+
+/*scrollbar*/
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #0067a3;
+	border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #66a4c7;
+	border-radius: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track:vertical {
+	background: #d6dad6;
+	border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb:vertical {
+	background: #c4c9cc;
+	border-radius: 10px;
+}

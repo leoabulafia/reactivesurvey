@@ -43,7 +43,7 @@ class App extends Component {
 					/>
 					<Route exact path="/resetpassword" component={ResetPassword} />
 					<Route exact path="/emailconfirmed" component={EmailConfirmed} />
-					<Route exact path="/survey/:id/:title" component={Survey} />
+					<Route exact path="/survey/:emailKey/:id/:title" component={Survey} />
 					<PrivateRoute
 						exact
 						path="/sendmail/:id/:token"

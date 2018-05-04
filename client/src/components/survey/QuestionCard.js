@@ -8,7 +8,7 @@ import ChoiceList from './ChoiceList';
 //style components
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
-import { FormControlLabel } from 'material-ui/Form';
+import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import IconButton from 'material-ui/IconButton';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import Switch from 'material-ui/Switch';
@@ -41,8 +41,10 @@ const ITEM_HEIGHT = 48;
 
 class QuestionCard extends Component {
 	state = {
-		anchorEl: null
+		anchorEl: null,
+		multipleSelect: this.props.multipleSelect
 	};
+
 	handleClick = event => {
 		this.setState({ anchorEl: event.currentTarget });
 	};
@@ -65,12 +67,14 @@ class QuestionCard extends Component {
 	};
 
 	handleSelectMultiple = () => {
-		const { question, surveyId } = this.props;
+		const { id, surveyId, allowMultiple, fetchSurvey, location } = this.props;
 		const payload = {
-			questionId: question._id,
+			questionId: id,
 			surveyId
 		};
-		this.props.allowMultiple(payload);
+		allowMultiple(payload);
+		fetchSurvey(location);
+		this.setState({ multipleSelect: !this.state.multipleSelect });
 	};
 	render() {
 		const {
@@ -79,6 +83,7 @@ class QuestionCard extends Component {
 			question,
 			surveyId,
 			id,
+			multipleSelect,
 			choices,
 			draggableId,
 			index
@@ -119,8 +124,9 @@ class QuestionCard extends Component {
 												<FormControlLabel
 													control={
 														<Switch
-															onChange={this.handleSelectMultiple()}
-															value={question.multipleSelect}
+															onChange={this.handleSelectMultiple}
+															checked={this.state.multipleSelect}
+															value="multipleSelect"
 														/>
 													}
 													label="Multiple Select"

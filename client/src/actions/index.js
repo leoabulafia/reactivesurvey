@@ -7,7 +7,9 @@ import {
 	FETCH_EMAILS,
 	SET_DRAWER,
 	DELETE_ELEMENT,
-	FETCH_ELEMENT
+	FETCH_ELEMENT,
+	FETCH_MULTIPLE_CHOICE,
+	FETCH_TOGGLE_CHOICE
 } from './types';
 
 export const fetchUser = () => dispatch => {
@@ -144,9 +146,14 @@ export const fetchSurvey = location => dispatch => {
 	});
 };
 
-export const setElection = (index, questionindex, surveyid) => dispatch => {
-	const val = { index, questionindex, surveyid };
-	axios.post('/api/elect', val).then(res => {
+export const setElection = values => dispatch => {
+	axios.post('/api/elect', values).then(res => {
+		dispatch({ type: FETCH_ELEMENTS, payload: res.data });
+	});
+};
+
+export const setMultipleElected = values => dispatch => {
+	axios.post('/api/multiplechoice', values).then(res => {
 		dispatch({ type: FETCH_ELEMENTS, payload: res.data });
 	});
 };
@@ -208,4 +215,14 @@ export const reorderChoices = values => dispatch => {
 
 export const setDrawer = () => ({
 	type: SET_DRAWER
+});
+
+export const selectMultiple = id => ({
+	type: FETCH_MULTIPLE_CHOICE,
+	id
+});
+
+export const toggleMultiple = id => ({
+	type: FETCH_TOGGLE_CHOICE,
+	id
 });

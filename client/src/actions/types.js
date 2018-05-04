@@ -6,3 +6,5 @@ export const FETCH_EMAILS = 'fetch_emails';
 export const SET_DRAWER = 'set_drawer';
 export const DELETE_ELEMENT = 'delete_element';
 export const FETCH_ELEMENT = 'fetch_element';
+export const FETCH_MULTIPLE_CHOICE = 'fetch_multiple_choice';
+export const FETCH_TOGGLE_CHOICE = 'fetch_toggle_choice';

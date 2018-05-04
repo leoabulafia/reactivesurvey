@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import flow from 'lodash/flow';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchSurvey } from '../../actions';
 import { withStyles } from 'material-ui/styles';
+import { reduxForm, submit } from 'redux-form';
 //style components
 import Button from 'material-ui/Button';
 import Card, { CardContent } from 'material-ui/Card';
@@ -15,6 +17,8 @@ import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 //components
 import ChoiceSurveyList from './ChoiceSurveyList';
+//actions
+import { fetchSurvey, setMultipleElected } from '../../actions';
 
 const styles = theme => ({
 	root: {
@@ -77,6 +81,19 @@ class Survey extends Component {
 	}
 
 	handleNext = () => {
+		const { selectedChoices, setMultipleElected, survey, match } = this.props;
+		const payload = {
+			selectedChoices,
+			surveyId: survey._id,
+			emailKey: match.params.emailKey,
+			questionId: getQuestionContent(
+				filteredSurvey(survey),
+				this.state.activeStep
+			)._id
+		};
+		if (selectedChoices.length > 0) {
+			setMultipleElected(payload);
+		}
 		this.setState(prevState => ({
 			activeStep: prevState.activeStep + 1
 		}));
@@ -95,7 +112,7 @@ class Survey extends Component {
 	};
 
 	renderContent() {
-		const { classes, theme, survey } = this.props;
+		const { classes, theme, survey, match } = this.props;
 		const { activeStep } = this.state;
 		const footerPosition = window.innerWidth > 600 ? 'fixed' : 'inherit';
 		switch (survey) {
@@ -125,11 +142,13 @@ class Survey extends Component {
 						</Hidden>
 						<div>
 							{this.state.activeStep === filteredSurvey(survey).length ? (
-								<div>
-									<Typography className={classes.instructions}>
-										All steps completed - you&quot;re finished
+								<div style={{ display: 'flex' }}>
+									<Typography
+										variant="title"
+										className={classes.instructions}
+										style={{ margin: 'auto' }}>
+										Thank you very much!
 									</Typography>
-									<Button onClick={this.handleReset}>Reset</Button>
 								</div>
 							) : (
 								<div>
@@ -154,6 +173,7 @@ class Survey extends Component {
 													filteredSurvey(survey),
 													activeStep
 												)}
+												emailKey={match.params.emailKey}
 												onNext={this.handleNext}
 												surveyid={survey._id}
 											/>
@@ -222,10 +242,12 @@ class Survey extends Component {
 	}
 }
 
-const mapStateToProps = ({ survey }) => {
-	return { survey };
-};
+const mapStateToProps = ({ survey, selectedChoices }) => ({
+	survey,
+	selectedChoices
+});
 
-export default connect(mapStateToProps, { fetchSurvey })(
-	withStyles(styles, { withTheme: true })(Survey)
-);
+export default flow(
+	connect(mapStateToProps, { fetchSurvey, setMultipleElected }),
+	withStyles(styles, { withTheme: true })
+)(Survey);

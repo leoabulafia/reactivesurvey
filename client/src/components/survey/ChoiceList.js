@@ -6,9 +6,8 @@ import Choice from './Choice';
 const grid = 8;
 
 const getListStyle = isDraggingOver => ({
-	background: isDraggingOver ? 'lightblue' : 'lightgrey',
-	padding: grid,
-	width: 250
+	background: isDraggingOver ? 'lightblue' : '#E2E4E6',
+	padding: grid
 });
 
 class ChoiceList extends Component {
@@ -18,8 +17,7 @@ class ChoiceList extends Component {
 			<div
 				style={{
 					maxHeight: 'calc(100vh - 280px)',
-					overflowY: 'auto',
-					marginRight: '5px'
+					overflowY: 'auto'
 				}}>
 				<Droppable
 					droppableId={indexCard.toString()}

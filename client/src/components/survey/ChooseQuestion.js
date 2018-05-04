@@ -83,7 +83,9 @@ class ChooseQuestion extends Component {
 				<Typography variant="caption">
 					This question will appear on the email body with its options. When the
 					user clicks on an option, it will be redirected to the survey. The
-					answer will be saved.
+					answer will be saved.<br />
+					Warning: If the question selected is marked to have multiple choices,
+					it only will be possible one reply through email.
 				</Typography>
 				<div
 					style={{

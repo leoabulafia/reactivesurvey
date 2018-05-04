@@ -13,7 +13,8 @@
     "passport-local": "^1.0.0",
     "path-parser": "^3.0.1",
     "randomstring": "^1.1.5",
-    "sendgrid": "^5.2.3"
+    "sendgrid": "^5.2.3",
+    "shortid": "^2.2.8"
   },
   "license": "MIT",
   "engines": {

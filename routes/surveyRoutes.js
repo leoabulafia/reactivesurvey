@@ -5,6 +5,7 @@ const sgMail = require('@sendgrid/mail');
 const keys = require('../config/keys');
 const { URL } = require('url');
 const Path = require('path-parser');
+const shortid = require('shortid');
 const option = require('../services/generator');
 const mainMail = require('../services/emailTemplates/mainMail');
 const Survey = mongoose.model('Survey');
@@ -20,10 +21,48 @@ module.exports = app => {
 	});
 
 	// fetches url from mail and redirects to survey
-	app.get('/api/:choiceId/:surveyKey/:surveyTitle', (req, res) => {
-		const { surveyKey, surveyTitle } = req.params;
-		res.redirect(`/survey/${surveyKey}/${surveyTitle}`);
-	});
+	app.get(
+		'/api/:emailKey/:questionId/:choiceId/:surveyKey/:surveyTitle',
+		(req, res) => {
+			console.log('PARAMS', req.params);
+			const {
+				surveyKey,
+				surveyTitle,
+				emailKey,
+				choiceId,
+				questionId
+			} = req.params;
+			Survey.findOne({ surveykey: surveyKey }, (err, survey) => {
+				let questions = survey.questions;
+				let recipients = survey.recipients;
+				let filteredRecipient = recipients.filter(
+					el => el.emailKey === emailKey
+				);
+				let filteredResponded = filteredRecipient[0].responded.filter(
+					el => el === questionId
+				);
+				console.log('filteredRecipient', filteredRecipient);
+				console.log('filteredResponded', filteredResponded);
+				let filteredQuestion = questions.filter(el => el.selected === true);
+				console.log('filteredQuestion', filteredQuestion);
+				if (filteredRecipient.length > 0 && filteredResponded.length === 0) {
+					filteredRecipient[0].responded.push(questionId);
+					for (let i = 0; i < filteredQuestion[0].choices.length; i++) {
+						if (filteredQuestion[0].choices[i]._id.toString() === choiceId) {
+							filteredQuestion[0].choices[i].elected += 1;
+							filteredQuestion[0].totalResponded += 1;
+						}
+					}
+				}
+				survey.save(err => {
+					if (err) {
+						console.error(err);
+					}
+				});
+			});
+			res.redirect(`/survey/${emailKey}/${surveyKey}/${surveyTitle}`);
+		}
+	);
 
 	//fetches individual survey
 	app.post('/api/survey', requireLogin, (req, res) => {
@@ -101,12 +140,37 @@ module.exports = app => {
 
 	//if chosen, increments by 1 elected field in a choice
 	app.post('/api/elect', (req, res) => {
-		const { index, questionindex, surveyid } = req.body;
+		const { id, questionId, emailKey, surveyid } = req.body;
 		Survey.findOne({ _id: surveyid }, (err, survey) => {
-			let filtered = survey.questions.filter(q => q.index === questionindex);
-			let choice = filtered[0].choices.filter(choice => choice.index === index);
-			choice[0].elected += 1;
-			console.log('CHOICE: ', choice);
+			//This is the question containing the choice
+			let filteredQuestion = survey.questions.filter(
+				q => q._id.toString() === questionId
+			);
+			//Checks if email exists in recipients
+			let filteredRecipient = survey.recipients.filter(
+				r => r.emailKey === emailKey
+			);
+			//Checks in recipients.responded array, if there's a key with the
+			//question
+			try {
+				var filteredResponded = filteredRecipient[0].responded.filter(
+					el => el === questionId
+				);
+			} catch (e) {}
+
+			//If email exists and questionId is not in responded array, it means that
+			//question is not yet replied, so:
+			if (filteredRecipient.length > 0 && filteredResponded.length === 0) {
+				//pushes questionId in responded array to later verification and,
+				filteredRecipient[0].responded.push(questionId);
+				//for every choice that matches with id, increments by one elected.
+				for (let i = 0; i < filteredQuestion[0].choices.length; i++) {
+					if (filteredQuestion[0].choices[i]._id.toString() === id) {
+						filteredQuestion[0].choices[i].elected += 1;
+						filteredQuestion[0].totalResponded += 1;
+					}
+				}
+			}
 			survey.save(err => {
 				if (err) {
 					console.error(err);
@@ -116,6 +180,52 @@ module.exports = app => {
 		res.send({});
 	});
 
+	//if chosen, increments by 1 multiple elected fields in a choice
+	app.post('/api/multiplechoice', (req, res) => {
+		const { selectedChoices, questionId, emailKey, surveyId } = req.body;
+		Survey.findOne({ _id: surveyId }, (err, survey) => {
+			//selected choices filtered
+			let filteredSelected = funcFilter(selectedChoices);
+			//This is the question containing the choice
+			let filteredQuestion = survey.questions.filter(
+				q => q._id.toString() === questionId
+			);
+			//Checks if email exists in recipients
+			let filteredRecipient = survey.recipients.filter(
+				r => r.emailKey === emailKey
+			);
+			//Checks if there's a key with the
+			//question in recipients.responded array
+			try {
+				var filteredResponded = filteredRecipient[0].responded.filter(
+					el => el === questionId
+				);
+			} catch (e) {}
+
+			if (filteredRecipient.length > 0 && filteredResponded.length === 0) {
+				filteredRecipient[0].responded.push(questionId);
+				for (let i = 0; i < filteredSelected.length; i++) {
+					for (let j = 0; j < filteredQuestion[0].choices.length; j++) {
+						if (
+							filteredQuestion[0].choices[j]._id.toString() ===
+							filteredSelected[i]
+						) {
+							filteredQuestion[0].choices[j].elected += 1;
+							filteredQuestion[0].totalResponded += 1;
+						}
+					}
+				}
+			}
+			survey.save(err => {
+				if (err) {
+					console.error(err);
+				}
+			});
+		});
+		res.send({});
+	});
+
+	//reorder when drag n drop question cards
 	app.post('/api/reorderquestions', (req, res) => {
 		const { questions, surveyId } = req.body;
 		Survey.findOne({ _id: surveyId }, (err, survey) => {
@@ -133,6 +243,7 @@ module.exports = app => {
 		});
 	});
 
+	//reoder when drag n drop choices (answers)
 	app.post('/api/reorderchoices', (req, res) => {
 		console.log('BODY: ', req.body);
 		const { choices, surveyId, questionId } = req.body;
@@ -153,10 +264,11 @@ module.exports = app => {
 		});
 	});
 
+	//add email address to list of mails
 	app.post('/api/addmails', (req, res) => {
 		const { recipients, surveyId } = req.body;
 		const emails = recipients.split(',').map(email => {
-			return { email: email.trim() };
+			return { email: email.trim(), emailKey: shortid.generate() };
 		});
 		for (let i = 0; i < emails.length; i++) {
 			Survey.findOneAndUpdate(
@@ -173,6 +285,7 @@ module.exports = app => {
 		res.send({});
 	});
 
+	//delete email address from list
 	app.post('/api/deletemail', (req, res) => {
 		const { mailId, surveyId } = req.body;
 
@@ -209,10 +322,22 @@ module.exports = app => {
 		});
 	});
 
+	//allows selecting multiple aswer options
 	app.post('/api/allowmultiple', (req, res) => {
 		const { questionId, surveyId } = req.body;
 		console.log('allow multiple', req.body);
-		res.send({});
+		Survey.findOne({ _id: surveyId }, (err, survey) => {
+			let filtered = survey.questions.filter(
+				q => q._id.toString() === questionId
+			);
+			filtered[0].multipleSelect = !filtered[0].multipleSelect;
+			survey.save(err => {
+				if (err) {
+					console.error(err);
+				}
+			});
+			res.send(survey);
+		});
 	});
 
 	app.post('/api/sendmail', (req, res) => {
@@ -227,75 +352,64 @@ module.exports = app => {
 			emailSubtitle,
 			emailDescription
 		} = req.body;
-		let optionsConc = '';
-		const questionText = question[0].question;
-		for (let i = 0; i < question[0].choices.length; i++) {
-			optionsConc = optionsConc.concat(
-				option(
-					question[0].choices[i]._id.toString(),
-					surveyKey,
-					surveyTitle,
-					question[0].choices[i].choice
-				)
+		console.log('body:', req.body);
+		let emailString = '';
+		const emailFunc = (str, i) => {
+			return option(
+				question[0].choices[i]._id.toString(),
+				str,
+				question[0]._id,
+				surveyKey,
+				surveyTitle,
+				question[0].choices[i].choice
 			);
-		}
-		console.log('questionText: ', optionsConc);
+		};
+		const questionText = question[0].question;
+		const emailF = payload => {
+			let string = '';
+			for (let i = 0; i < question[0].choices.length; i++) {
+				string += emailFunc(payload, i);
+			}
+			return string;
+		};
+
+		console.log('questionText: ', emailString);
 		console.log('opt string', question[0].choices[0].choice);
 		sgMail.setApiKey(keys.sendGridKey);
-		sgMail
-			.sendMultiple({
-				to: recipients,
-				from: `${emailFrom} <no-reply@mailsurveys.com>`,
-				replyTo: 'no-reply@mailsurveys.com',
-				subject: emailSubject,
-				text: 'Testing my woooorld!',
-				html: mainMail(
-					optionsConc,
-					emailTitle,
-					emailSubtitle,
-					emailDescription,
-					questionText
-				)
-			})
-			.then(res => console.log(res))
-			.catch(error => {
-				console.error(error.toString());
-			});
-		res.send({});
-	});
-
-	app.post('/', (req, res) => {
-		const values = new Path('/api/:choiceId/:surveyKey/:surveyName');
-		req.body.map(event => {
-			const pathname = new URL(event.url).pathname;
-			const { choiceId, surveyKey, surveyName } = values.test(pathname);
-			const email = event.email;
-			Survey.findOne({ surveykey: surveyKey }, (err, survey) => {
-				let questions = survey.questions;
-				let recipients = survey.recipients;
-				let filteredRecipient = recipients.filter(
-					el => el.email === email && el.responded === false
-				);
-				let filteredQuestion = questions.filter(el => el.selected === true);
-				console.log('filterRecip, ', filteredRecipient);
-				console.log('filterQuest, ', filteredQuestion);
-				if (filteredRecipient.length > 0) {
-					filteredRecipient[0].responded = true;
-					for (let i = 0; i < filteredQuestion[0].choices.length; i++) {
-						if (filteredQuestion[0].choices[i]._id.toString() === choiceId) {
-							filteredQuestion[0].choices[i].elected += 1;
-							filteredQuestion[0].totalResponded += 1;
-						}
-					}
-				}
-
-				survey.save(err => {
-					if (err) {
-						console.error(err);
-					}
+		for (let i = 0; i < recipients.length; i++) {
+			sgMail
+				.send({
+					to: recipients[i].email,
+					from: `${emailFrom} <no-reply@mailsurveys.com>`,
+					replyTo: 'no-reply@mailsurveys.com',
+					subject: emailSubject,
+					text: 'SurveyZilla',
+					html: mainMail(
+						emailF(recipients[i].emailKey),
+						emailTitle,
+						emailSubtitle,
+						emailDescription,
+						questionText
+					)
+				})
+				.then(res => console.log(res))
+				.catch(error => {
+					console.error(error.toString());
 				});
-			});
-		});
+		}
+
 		res.send({});
 	});
+};
+
+//HELPER FUNCTIONS
+
+//filters array with choices ids and values and returns array with values === true
+const funcFilter = arr => {
+	let newArr = [];
+	let oldArr = arr.filter(el => el.value === true);
+	for (let i = 0; i < oldArr.length; i++) {
+		newArr.push(oldArr[i].id);
+	}
+	return newArr;
 };

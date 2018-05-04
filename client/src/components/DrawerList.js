@@ -5,7 +5,6 @@ import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 //icons
 import SettingsIcon from 'material-ui-icons/Settings';
-import AccountCircle from 'material-ui-icons/AccountCircle';
 import DashboardIcon from 'material-ui-icons/Dashboard';
 import EmailIcon from 'material-ui-icons/Email';
 import GithubCircle from 'mdi-material-ui/GithubCircle';
@@ -13,7 +12,10 @@ import LogoutIcon from 'mdi-material-ui/Logout';
 import HideIcon from 'mdi-material-ui/EyeOffOutline';
 import PollIcon from 'material-ui-icons/Poll';
 import PieChartIcon from 'material-ui-icons/PieChart';
-
+import ZoomOutMapIcon from 'material-ui-icons/ZoomOutMap';
+//components
+import Preview from './survey/Preview';
+//actions
 import { setDrawer } from '../actions';
 
 class DrawerList extends Component {
@@ -43,6 +45,7 @@ class DrawerList extends Component {
 								</ListItemIcon>
 								<ListItemText primary="My survey" />
 							</ListItem>
+							<Preview />
 							<ListItem
 								button
 								component={NavLink}
@@ -72,12 +75,6 @@ class DrawerList extends Component {
 						</div>
 					)}
 
-					<ListItem button component={NavLink} to="/profile">
-						<ListItemIcon>
-							<AccountCircle />
-						</ListItemIcon>
-						<ListItemText primary="Profile" />
-					</ListItem>
 					<ListItem button component={NavLink} to="/settings">
 						<ListItemIcon>
 							<SettingsIcon />

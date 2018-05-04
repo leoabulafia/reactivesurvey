@@ -12,8 +12,6 @@ const styles = theme => ({
 		background: '#e0e0e0',
 		borderRadius: 3,
 		minHeight: 24,
-		left: '3%',
-		width: '96%',
 		textTransform: 'inherit',
 		'&:hover': {
 			filter: 'brightness(95%)'

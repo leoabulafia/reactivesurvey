@@ -102,7 +102,10 @@ class EmailSubject extends Component {
 					onSubmit={handleSubmit(data => {
 						let recipients = [];
 						for (let i = 0; i < survey.recipients.length; i++) {
-							recipients.push(survey.recipients[i].email);
+							recipients.push({
+								email: survey.recipients[i].email,
+								emailKey: survey.recipients[i].emailKey
+							});
 						}
 						let question = survey.questions.filter(el => el.selected === true);
 						data.surveyKey = survey.surveykey;

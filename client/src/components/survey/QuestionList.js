@@ -14,7 +14,7 @@ import { reorderQuestions, reorderChoices, fetchSurvey } from '../../actions';
 const styles = theme => ({
 	gridList: {
 		flexWrap: 'nowrap',
-		height: 'calc(100vh - 140px)',
+		height: 'calc(100vh - 139px)',
 		paddingLeft: 10,
 		paddingRight: 10
 	},
@@ -132,16 +132,18 @@ class QuestionList extends Component {
 								ref={provided.innerRef}
 								style={getListStyle(snapshot.isDraggingOver)}
 								{...provided.droppableProps}>
-								{this.state.questions.map(({ question, _id, choices }, i) => (
+								{this.state.questions.map((q, i) => (
 									<QuestionCard
-										key={_id}
-										draggableId={_id}
+										key={q._id}
+										draggableId={q._id}
 										index={i}
 										surveyId={survey._id}
-										id={_id}
+										id={q._id}
+										multipleSelect={q.multipleSelect}
 										location={location}
-										question={question}
-										choices={choices}
+										question={q.question}
+										choices={q.choices}
+										q={q}
 									/>
 								))}
 								<AddQuestion location={location} />

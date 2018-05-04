@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
+import flow from 'lodash/flow';
+import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form';
+//components
 import ChoiceSurvey from './ChoiceSurvey';
+//actions
+import { setMultipleElected } from '../../actions';
 
-class ChoiceList extends Component {
+class ChoiceSurveyList extends Component {
 	render() {
 		return (
 			<div
 				style={{
-					maxHeight: 'calc(100vh - 280px)',
+					maxHeight: 'calc(100vh - 350px)',
 					overflowY: 'auto',
-					marginRight: '5px'
+					padding: 8
 				}}>
 				{this.props.choices.map(({ choice, _id, index }, i) => (
 					<ChoiceSurvey
@@ -24,4 +30,4 @@ class ChoiceList extends Component {
 	}
 }
 
-export default ChoiceList;
+export default flow(connect(null, { setMultipleElected }))(ChoiceSurveyList);

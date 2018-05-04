@@ -17,7 +17,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
-
+//components
 import DrawerList from './DrawerList';
 import MobileMenu from './MobileMenu';
 import SurveyDrawer from './survey/SurveyDrawer';

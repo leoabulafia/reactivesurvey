@@ -7,6 +7,7 @@ import emailReducer from './emailReducer';
 import elementListReducer from './elementListReducer';
 import elementReducer from './elementReducer';
 import choicesReducer from './choicesReducer';
+import selectMultipleReducer from './selectMultipleReducer';
 
 export default combineReducers({
 	auth: authReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
 	emails: emailReducer,
 	choices: choicesReducer,
 	survey: surveyReducer,
+	selectedChoices: selectMultipleReducer,
 	form: reduxForm
 });

@@ -3,11 +3,8 @@ import flow from 'lodash/flow';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
-import { addEmailsFields } from '../authForms/formFields';
-import AuthField from '../authForms/AuthField';
 import validateEmails from '../../utilities/validateEmails';
-import { setDrawer, addEmails, fetchSurvey } from '../../actions';
-//styles
+//component styles
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
@@ -19,9 +16,14 @@ import Typography from 'material-ui/Typography';
 import AddIcon from 'mdi-material-ui/PlusCircle';
 import DoneIcon from 'material-ui-icons/Done';
 //components
+import AuthField from '../authForms/AuthField';
 import ChooseQuestion from './ChooseQuestion';
 import MailList from './MailList';
 import MainDrawer from '../MainDrawer';
+//actions
+import { setDrawer, addEmails, fetchSurvey } from '../../actions';
+//helpers
+import { addEmailsFields } from '../authForms/formFields';
 
 const styles = theme => ({
 	root: {

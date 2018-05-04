@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
@@ -8,6 +9,10 @@ const bodyParser = require('body-parser');
 
 require('./models/User');
 require('./models/Survey');
+require('./models/Email');
+
+//require passport strategies, serialize and deserialize
+require('./services/passport');
 
 //connect to mongodb
 mongoose.connect(keys.mongoURI);
@@ -31,9 +36,6 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/mailRoutes')(app);
 require('./routes/surveyRoutes')(app);
-
-//require passport strategies, serialize and deserialize
-require('./services/passport');
 
 //Express in production!
 //order of operations is important

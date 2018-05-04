@@ -35,5 +35,17 @@ require('./routes/surveyRoutes')(app);
 //require passport strategies, serialize and deserialize
 require('./services/passport');
 
+//Express in production!
+//order of operations is important
+if (process.env.NODE_ENV === 'production') {
+	//First, if any request comes and it isn't handled by Express,
+	//look out for /client/build
+	app.use(express.static('client/build'));
+	//Second, if don't know what route is just serve index.html
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+	});
+}
+
 const PORT = process.env.port || 5000;
 app.listen(PORT);

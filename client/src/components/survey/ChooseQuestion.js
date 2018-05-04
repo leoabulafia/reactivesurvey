@@ -63,7 +63,7 @@ class ChooseQuestion extends Component {
 	};
 
 	handleSelect = index => () => {
-		const { selectQuestion, survey, fetchSurvey, location } = this.props;
+		const { selectQuestion, survey } = this.props;
 		const payload = {
 			questionIndex: index,
 			surveyId: survey._id

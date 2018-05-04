@@ -184,7 +184,7 @@ export const deleteEmailAddress = values => dispatch => {
 export const selectQuestion = values => dispatch => {
 	axios.post('/api/selectquestion', values).then(res => {
 		console.log(res);
-		dispatch({ type: FETCH_ELEMENT, payload: res.data });
+		dispatch({ type: FETCH_SURVEY, payload: res.data });
 	});
 };
 

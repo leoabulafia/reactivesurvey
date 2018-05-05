@@ -51,7 +51,7 @@ class LocalSignUp extends Component {
 					console.log(data);
 					return createAccount(data, history);
 				})}>
-				{this.renderFields()}
+				<div style={{ width: '100%' }}>{this.renderFields()}</div>
 				{error && <strong>{error}</strong>}
 				<Button
 					style={styles.signUpButton}

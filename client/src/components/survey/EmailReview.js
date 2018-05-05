@@ -68,36 +68,38 @@ class EmailReview extends Component {
 					</div>
 
 					<Divider style={{ margin: '24px' }} />
-					<div style={{ textAlign: 'center' }}>
-						<Typography style={{ margin: '10px' }} variant="headline">
-							{emailTitle}
-						</Typography>
-						<Typography style={{ margin: '10px' }} variant="subheading">
-							{emailSubtitle}
-						</Typography>
-						<Typography style={{ margin: '10px' }} variant="body2">
-							{emailDescription}
-						</Typography>
-						<Typography style={{ margin: '10px' }} variant="title">
-							{question[0].question}
-						</Typography>
-						{question[0].choices.map(choice => {
-							return (
-								<div key={choice._id} style={{ margin: '10px' }}>
-									<Button
-										style={{
-											borderRadius: '5px',
-											maxWidth: '400px',
-											width: '100%',
-											textTransform: 'none'
-										}}
-										variant="raised"
-										color="primary">
-										{choice.choice}
-									</Button>
-								</div>
-							);
-						})}
+					<div style={{ border: '5px solid #003d82', borderRadius: '10px' }}>
+						<div style={{ textAlign: 'center', margin: '20px' }}>
+							<Typography style={{ margin: '10px' }} variant="headline">
+								{emailTitle}
+							</Typography>
+							<Typography style={{ margin: '10px' }} variant="subheading">
+								{emailSubtitle}
+							</Typography>
+							<Typography style={{ margin: '10px' }} variant="body2">
+								{emailDescription}
+							</Typography>
+							<Typography style={{ margin: '10px' }} variant="title">
+								{question[0].question}
+							</Typography>
+							{question[0].choices.map(choice => {
+								return (
+									<div key={choice._id} style={{ margin: '10px' }}>
+										<Button
+											style={{
+												borderRadius: '5px',
+												maxWidth: '400px',
+												width: '100%',
+												textTransform: 'none'
+											}}
+											variant="raised"
+											color="primary">
+											{choice.choice}
+										</Button>
+									</div>
+								);
+							})}
+						</div>
 					</div>
 				</Paper>
 				<div style={{ display: 'flex', flexDirection: 'row' }}>

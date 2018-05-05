@@ -7,6 +7,18 @@ a {
 	color: #fff;
 }
 
+.bg {
+	align-items: center;
+	color: #fff;
+	background: no-repeat center center fixed;
+	background-size: cover;
+	overflow: hidden;
+	@media (max-width: 700px) {
+		background: no-repeat center center scroll;
+		background-size: cover;
+	}
+}
+
 .container {
 	background: #1976d2;
 	align-items: center;

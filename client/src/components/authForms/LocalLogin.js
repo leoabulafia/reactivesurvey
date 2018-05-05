@@ -50,7 +50,7 @@ class LocalLogin extends Component {
 				onSubmit={handleSubmit(data => {
 					return loginAccount(data, history);
 				})}>
-				{this.renderFields()}
+				<div style={{ width: '100%' }}>{this.renderFields()}</div>
 				{error && <strong>{error}</strong>}
 				<Button
 					style={styles.loginButton}

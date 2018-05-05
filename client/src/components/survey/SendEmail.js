@@ -14,7 +14,7 @@ import AddIcon from 'mdi-material-ui/PlusCircle';
 import Typography from 'material-ui/Typography';
 //components
 import AddEmails from './AddEmails';
-import EmailSubject from './EmailSubject';
+import EmailWrapper from './EmailWrapper';
 import MainDrawer from '../MainDrawer';
 
 const styles = {
@@ -59,8 +59,7 @@ class SendEmail extends Component {
 								label="... Show Options"
 							/>
 						)}
-						<AddEmails survey={survey} />
-						<EmailSubject />
+						<EmailWrapper />
 					</MainDrawer>
 				);
 		}

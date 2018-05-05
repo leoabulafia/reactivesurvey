@@ -11,9 +11,11 @@ import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
+import { FormControl, FormHelperText } from 'material-ui/Form';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 //components
+import AddEmails from './AddEmails';
 import ChooseQuestion from './ChooseQuestion';
 
 const styles = theme => ({
@@ -86,74 +88,101 @@ class EmailSubject extends Component {
 			survey
 		} = this.props;
 		return (
-			<Paper className={classes.root}>
-				<AppBar
-					position="static"
-					color="secondary"
-					style={{ marginTop: '-50px' }}>
-					<Toolbar>
-						<Typography variant="title" color="inherit">
-							Email:
-						</Typography>
-					</Toolbar>
-				</AppBar>
-				<form
-					style={{ display: 'flex', flexDirection: 'column' }}
-					onSubmit={handleSubmit(data => {
-						let recipients = [];
-						for (let i = 0; i < survey.recipients.length; i++) {
-							recipients.push({
-								email: survey.recipients[i].email,
-								emailKey: survey.recipients[i].emailKey
-							});
-						}
-						let question = survey.questions.filter(el => el.selected === true);
-						data.surveyKey = survey.surveykey;
-						data.surveyTitle = survey.title.replace(/\W/g, '');
-						data.recipients = recipients;
-						data.question = question;
-						sendEmail(data);
-						console.log('DATA: ', data);
-					})}>
-					<Typography
-						variant="body2"
+			<div>
+				<AddEmails survey={survey} />
+
+				<Paper className={classes.root}>
+					<AppBar
+						position="static"
 						color="secondary"
-						style={{ marginTop: '24px' }}>
-						Email Subject & From:
-					</Typography>
-
-					<div className={classes.container}>{this.renderSubjectFields()}</div>
-					<Typography
-						variant="body2"
-						color="secondary"
-						style={{ marginTop: '24px' }}>
-						Email Body:
-					</Typography>
-
-					<div className={classes.container}>{this.renderMailFields()}</div>
-
-					{error && <strong>{error}</strong>}
-					<ChooseQuestion />
-
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							width: '100%'
-						}}>
-						<Button
-							style={styles.loginButton}
-							variant="raised"
+						style={{ marginTop: '-50px' }}>
+						<Toolbar>
+							<Typography variant="title" color="inherit">
+								Email:
+							</Typography>
+						</Toolbar>
+					</AppBar>
+					<form
+						style={{ display: 'flex', flexDirection: 'column' }}
+						onSubmit={handleSubmit(data => {
+							let recipients = [];
+							for (let i = 0; i < survey.recipients.length; i++) {
+								recipients.push({
+									email: survey.recipients[i].email,
+									emailKey: survey.recipients[i].emailKey
+								});
+							}
+							let question = survey.questions.filter(
+								el => el.selected === true
+							);
+							data.surveyKey = survey.surveykey;
+							data.surveyTitle = survey.title.replace(/\W/g, '');
+							data.recipients = recipients;
+							data.question = question;
+							this.props.onPollSubmit();
+						})}>
+						<Typography
+							variant="body2"
 							color="primary"
-							type="submit">
-							Submit
-						</Button>
-					</div>
-				</form>
-			</Paper>
+							style={{ marginTop: '24px' }}>
+							Email Subject & From:
+						</Typography>
+
+						<div className={classes.container}>
+							{this.renderSubjectFields()}
+						</div>
+						<Typography
+							variant="body2"
+							color="primary"
+							style={{ marginTop: '24px' }}>
+							Email Body:
+						</Typography>
+
+						<div className={classes.container}>{this.renderMailFields()}</div>
+
+						<ChooseQuestion />
+
+						<div
+							style={{
+								display: 'flex',
+								flexWrap: 'wrap',
+								flexDirection: 'column',
+								alignItems: 'center',
+								marginTop: '10px'
+							}}>
+							<Button
+								style={{
+									borderRadius: '5px'
+								}}
+								variant="raised"
+								color="primary"
+								type="submit">
+								Submit
+							</Button>
+							<FormControl error>
+								<FormHelperText>{error}</FormHelperText>
+							</FormControl>
+						</div>
+					</form>
+				</Paper>
+			</div>
 		);
 	}
 }
+
+const validate = values => {
+	const errors = {};
+
+	errors.recipients = validateEmails(values.recipients || '');
+
+	[...emailSubjectFields, ...emailBodyFields].forEach(({ name, noValue }) => {
+		if (!values[name]) {
+			errors[name] = noValue;
+		}
+	});
+	console.log(errors);
+	return errors;
+};
 
 const mapStateToProps = ({ survey }) => ({ survey });
 
@@ -161,6 +190,7 @@ export default flow(
 	connect(mapStateToProps, { addEmails, fetchSurvey, sendEmail }),
 	reduxForm({
 		form: 'emailSubjectForm',
+		validate,
 		destroyOnUnmount: false
 	}),
 	withStyles(styles)

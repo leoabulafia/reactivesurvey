@@ -95,11 +95,15 @@ module.exports = app => {
 			question: question,
 			index: index
 		};
-		Survey.findOneAndUpdate(
-			{ _id: surveyid },
-			{ $push: { questions: questionElem } },
-			{ safe: true, upsert: true }
-		).then(survey => res.send(survey));
+		Survey.findOne({ _id: surveyid }, (err, survey) => {
+			survey.questions.push(questionElem);
+			survey.save(err => {
+				if (err) {
+					console.error(err);
+				}
+			});
+			res.send(survey.questions);
+		});
 	});
 
 	//deletes a question (card)
@@ -125,16 +129,17 @@ module.exports = app => {
 			index: index,
 			choice: choice
 		};
-		Survey.findOneAndUpdate(
-			{
-				_id: surveyid,
-				questions: {
-					$elemMatch: { _id: questionid }
+		Survey.findOne({ _id: surveyid }, (err, survey) => {
+			let filteredQuestion = survey.questions.filter(
+				q => q._id.toString() === questionid
+			);
+			filteredQuestion[0].choices.push(choiceObj);
+			survey.save(err => {
+				if (err) {
+					console.error(err);
 				}
-			},
-			{ $addToSet: { 'questions.$.choices': choiceObj } }
-		).then(survey => {
-			res.send(survey);
+			});
+			res.send(survey.questions);
 		});
 	});
 
@@ -364,7 +369,11 @@ module.exports = app => {
 				question[0].choices[i].choice
 			);
 		};
-		const questionText = question[0].question;
+		try {
+			var questionText = question[0].question;
+		} catch (e) {
+			res.send(false);
+		}
 		const emailF = payload => {
 			let string = '';
 			for (let i = 0; i < question[0].choices.length; i++) {
@@ -373,32 +382,31 @@ module.exports = app => {
 			return string;
 		};
 
-		console.log('questionText: ', emailString);
-		console.log('opt string', question[0].choices[0].choice);
-		sgMail.setApiKey(keys.sendGridKey);
-		for (let i = 0; i < recipients.length; i++) {
-			sgMail
-				.send({
-					to: recipients[i].email,
-					from: `${emailFrom} <no-reply@mailsurveys.com>`,
-					replyTo: 'no-reply@mailsurveys.com',
-					subject: emailSubject,
-					text: 'SurveyZilla',
-					html: mainMail(
-						emailF(recipients[i].emailKey),
-						emailTitle,
-						emailSubtitle,
-						emailDescription,
-						questionText
-					)
-				})
-				.then(res => console.log(res))
-				.catch(error => {
-					console.error(error.toString());
-				});
-		}
-
-		res.send({});
+		try {
+			sgMail.setApiKey(keys.sendGridKey);
+			for (let i = 0; i < recipients.length; i++) {
+				sgMail
+					.send({
+						to: recipients[i].email,
+						from: `${emailFrom} <no-reply@mailsurveys.com>`,
+						replyTo: 'no-reply@mailsurveys.com',
+						subject: emailSubject,
+						text: 'SurveyZilla',
+						html: mainMail(
+							emailF(recipients[i].emailKey),
+							emailTitle,
+							emailSubtitle,
+							emailDescription,
+							questionText
+						)
+					})
+					.then(res => console.log(res))
+					.catch(error => {
+						console.error(error.toString());
+					});
+			}
+			res.send({});
+		} catch (e) {}
 	});
 };
 

@@ -95,7 +95,6 @@ class AddQuestion extends Component {
 							console.log('SURVEY LENGTH ', survey.questions);
 							data.surveyid = key;
 							createQuestion(data);
-							fetchSurvey(location);
 							this.handleClose();
 							reset();
 						})}>

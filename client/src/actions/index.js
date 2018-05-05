@@ -4,6 +4,8 @@ import {
 	FETCH_USER,
 	FETCH_SURVEY,
 	FETCH_ELEMENTS,
+	FETCH_QUESTIONS,
+	FETCH_CHOICES,
 	FETCH_EMAILS,
 	SET_DRAWER,
 	DELETE_ELEMENT,
@@ -101,7 +103,7 @@ export const createQuestion = values => dispatch => {
 				});
 				reject(errorSubmit);
 			} else {
-				dispatch({ type: FETCH_USER, payload: res.data });
+				dispatch({ type: FETCH_QUESTIONS, payload: res.data });
 				resolve();
 			}
 		});
@@ -123,7 +125,7 @@ export const createChoice = values => dispatch => {
 				});
 				reject(errorSubmit);
 			} else {
-				dispatch({ type: FETCH_USER, payload: res.data });
+				dispatch({ type: FETCH_CHOICES, payload: res.data });
 				resolve();
 			}
 		});
@@ -196,8 +198,19 @@ export const allowMultiple = values => dispatch => {
 };
 
 export const sendEmail = values => dispatch => {
-	axios.post('/api/sendmail', values).then(res => {
-		dispatch({ type: FETCH_ELEMENTS, payload: res.data });
+	return new Promise((resolve, reject) => {
+		axios.post('/api/sendmail', values).then(res => {
+			console.log('res.DATA', res.data);
+			if (res.data === false) {
+				const errorSubmit = new SubmissionError({
+					_error: 'You must choose a question to send'
+				});
+				reject(errorSubmit);
+			} else {
+				dispatch({ type: FETCH_ELEMENTS, payload: res.data });
+				resolve();
+			}
+		});
 	});
 };
 

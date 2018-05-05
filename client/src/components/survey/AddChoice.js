@@ -102,7 +102,6 @@ class AddChoice extends Component {
 							data.surveyid = key;
 							data.questionid = id;
 							createChoice(data);
-							fetchSurvey(location);
 							reset();
 							this.handleClose();
 						})}>

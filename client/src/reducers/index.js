@@ -15,7 +15,6 @@ export default combineReducers({
 	elements: elementListReducer,
 	element: elementReducer,
 	emails: emailReducer,
-	choices: choicesReducer,
 	survey: surveyReducer,
 	selectedChoices: selectMultipleReducer,
 	form: reduxForm

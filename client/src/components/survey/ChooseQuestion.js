@@ -77,7 +77,7 @@ class ChooseQuestion extends Component {
 		const { expanded } = this.state;
 		return (
 			<div style={{ marginTop: '24px', marginBottom: '18px' }}>
-				<Typography variant="body2" color="secondary">
+				<Typography variant="body2" color="primary">
 					Choose a question
 				</Typography>
 				<Typography variant="caption">

@@ -197,7 +197,7 @@ export const allowMultiple = values => dispatch => {
 	});
 };
 
-export const sendEmail = values => dispatch => {
+export const sendEmail = (values, history) => dispatch => {
 	return new Promise((resolve, reject) => {
 		axios.post('/api/sendmail', values).then(res => {
 			console.log('res.DATA', res.data);
@@ -207,7 +207,8 @@ export const sendEmail = values => dispatch => {
 				});
 				reject(errorSubmit);
 			} else {
-				dispatch({ type: FETCH_ELEMENTS, payload: res.data });
+				dispatch({ type: FETCH_EMAILS, payload: res.data });
+				history.push('/dashboard');
 				resolve();
 			}
 		});

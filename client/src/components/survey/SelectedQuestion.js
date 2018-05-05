@@ -33,34 +33,40 @@ class SelectedQuestion extends Component {
 		const filteredQuestion = survey.questions.filter(
 			el => el.selected === true
 		);
-		return (
-			<div>
-				{filteredQuestion.map(({ _id, question, choices, index }, i) => {
-					return (
-						<ExpansionPanel
-							key={_id}
-							expanded={expanded === `panel1`}
-							onChange={handleChange(`panel1`)}>
-							<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-								<Typography variant="subheading">{question}</Typography>
-							</ExpansionPanelSummary>
-							<ExpansionPanelDetails
-								style={{ display: 'flex', flexDirection: 'column' }}>
-								{choices.map(({ _id, choice }, i) => {
-									return (
-										<div key={_id}>
-											<Typography variant="body1">
-												{i + 1} - {choice}
-											</Typography>
-										</div>
-									);
-								})}
-							</ExpansionPanelDetails>
-						</ExpansionPanel>
-					);
-				})}
-			</div>
-		);
+		const ifQuestionSelected =
+			filteredQuestion[0] === undefined ? (
+				<Typography variant="subheading" color="secondary">
+					You have to choose a question
+				</Typography>
+			) : (
+				<div>
+					{filteredQuestion.map(({ _id, question, choices, index }, i) => {
+						return (
+							<ExpansionPanel
+								key={_id}
+								expanded={expanded === `panel1`}
+								onChange={handleChange(`panel1`)}>
+								<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+									<Typography variant="subheading">{question}</Typography>
+								</ExpansionPanelSummary>
+								<ExpansionPanelDetails
+									style={{ display: 'flex', flexDirection: 'column' }}>
+									{choices.map(({ _id, choice }, i) => {
+										return (
+											<div key={_id}>
+												<Typography variant="body1">
+													{i + 1} - {choice}
+												</Typography>
+											</div>
+										);
+									})}
+								</ExpansionPanelDetails>
+							</ExpansionPanel>
+						);
+					})}
+				</div>
+			);
+		return ifQuestionSelected;
 	}
 }
 

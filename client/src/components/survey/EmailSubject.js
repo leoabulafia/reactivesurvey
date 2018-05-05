@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { emailSubjectFields, emailBodyFields } from '../authForms/formFields';
+import {
+	addEmailsFields,
+	emailSubjectFields,
+	emailBodyFields
+} from '../authForms/formFields';
 import AuthField from '../authForms/AuthField';
 import validateEmails from '../../utilities/validateEmails';
-import { setDrawer, addEmails, fetchSurvey, sendEmail } from '../../actions';
+import { setDrawer, addEmails, fetchSurvey } from '../../actions';
 //styles
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -119,7 +123,9 @@ class EmailSubject extends Component {
 							data.surveyTitle = survey.title.replace(/\W/g, '');
 							data.recipients = recipients;
 							data.question = question;
-							this.props.onPollSubmit();
+							if (question.length > 0 && recipients.length > 0) {
+								this.props.onPollSubmit();
+							}
 						})}>
 						<Typography
 							variant="body2"
@@ -157,11 +163,17 @@ class EmailSubject extends Component {
 								variant="raised"
 								color="primary"
 								type="submit">
-								Submit
+								Next
 							</Button>
-							<FormControl error>
-								<FormHelperText>{error}</FormHelperText>
-							</FormControl>
+							{survey.recipients[0] === undefined ? (
+								<FormControl style={{ marginLeft: '8px' }} error>
+									<FormHelperText>
+										You have to add at least one email address
+									</FormHelperText>
+								</FormControl>
+							) : (
+								<div />
+							)}
 						</div>
 					</form>
 				</Paper>
@@ -175,11 +187,13 @@ const validate = values => {
 
 	errors.recipients = validateEmails(values.recipients || '');
 
-	[...emailSubjectFields, ...emailBodyFields].forEach(({ name, noValue }) => {
-		if (!values[name]) {
-			errors[name] = noValue;
+	[...addEmailsFields, ...emailSubjectFields, ...emailBodyFields].forEach(
+		({ name, noValue }) => {
+			if (!values[name]) {
+				errors[name] = noValue;
+			}
 		}
-	});
+	);
 	console.log(errors);
 	return errors;
 };
@@ -187,7 +201,7 @@ const validate = values => {
 const mapStateToProps = ({ survey }) => ({ survey });
 
 export default flow(
-	connect(mapStateToProps, { addEmails, fetchSurvey, sendEmail }),
+	connect(mapStateToProps, { addEmails, fetchSurvey }),
 	reduxForm({
 		form: 'emailSubjectForm',
 		validate,

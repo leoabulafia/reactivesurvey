@@ -4,10 +4,9 @@ import HowItWorks from './HowItWorks';
 import Presentation from './Presentation';
 
 const Landing = () => (
-  <div>
-    <Presentation />
-    <HowItWorks />
-  </div>
+	<div>
+		<Presentation />
+	</div>
 );
 
 export default Landing;

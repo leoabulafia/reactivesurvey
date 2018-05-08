@@ -72,15 +72,17 @@ class DrawerList extends Component {
 								</ListItemIcon>
 								<ListItemText primary="See poll results" />
 							</ListItem>
+							<ListItem
+								button
+								component={NavLink}
+								to={`/settings/${surveykey}/${title.replace(/\W/g, '')}`}>
+								<ListItemIcon>
+									<SettingsIcon />
+								</ListItemIcon>
+								<ListItemText primary="Settings" />
+							</ListItem>
 						</div>
 					)}
-
-					<ListItem button component={NavLink} to="/settings">
-						<ListItemIcon>
-							<SettingsIcon />
-						</ListItemIcon>
-						<ListItemText primary="Settings" />
-					</ListItem>
 				</List>
 				<Divider />
 				<List>

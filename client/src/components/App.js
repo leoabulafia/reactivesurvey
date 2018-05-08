@@ -17,6 +17,7 @@ import ResetPassword from './authForms/ResetPassword';
 import Results from './survey/Results';
 import SignIn from './authForms/SignIn';
 import SendEmail from './survey/SendEmail';
+import Settings from './survey/Settings';
 import Survey from './survey/Survey';
 import SurveyDrawer from './survey/SurveyDrawer';
 //helpers
@@ -55,6 +56,11 @@ class App extends Component {
 						exact
 						path="/surveys/:id/:title"
 						component={SurveyDrawer}
+					/>
+					<PrivateRoute
+						exact
+						path="/settings/:id/:title"
+						component={Settings}
 					/>
 					<PrivateRoute exact path="/results/:id/:title" component={Results} />
 				</div>

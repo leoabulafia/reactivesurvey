@@ -4,18 +4,18 @@ import { connect } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 import { withStyles } from 'material-ui/styles';
 import { setElection } from '../../actions';
+//style components
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
+//components
+import EditChoice from './EditChoice';
 
 const styles = theme => ({
 	root: {
 		background: '#e0e0e0',
 		borderRadius: 3,
 		minHeight: 24,
-		textTransform: 'inherit',
-		'&:hover': {
-			filter: 'brightness(95%)'
-		}
+		textTransform: 'inherit'
 	}
 });
 
@@ -25,7 +25,7 @@ class Choice extends Component {
 		console.log(this.props);
 	};
 	render() {
-		const { classes, id, index } = this.props;
+		const { classes, id, index, questionId, choice } = this.props;
 		return (
 			<Draggable draggableId={id} index={index} type="CHOICE">
 				{(provided, snapshot) => (
@@ -41,8 +41,15 @@ class Choice extends Component {
 								padding: '4px 6px 4px 8px'
 							}}
 							className={classes.root}
+							className="choiceHover"
 							onChange={this.handleClick}>
-							<Typography variant="body2">{this.props.choice}</Typography>
+							<Typography variant="body2">{choice}</Typography>
+							<EditChoice
+								choiceIndex={index}
+								questionId={questionId}
+								choiceText={choice}
+								choiceId={id}
+							/>
 						</div>
 					</div>
 				)}

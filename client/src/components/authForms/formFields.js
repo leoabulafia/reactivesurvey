@@ -50,6 +50,16 @@ export const forgotPasswordFields = [
 	}
 ];
 
+//change survey title
+export const changeTitleFields = [
+	{
+		label: 'Set a new title',
+		name: 'changeTitle',
+		type: 'text',
+		noValue: 'Please enter a new title'
+	}
+];
+
 export const addEmailsFields = [
 	{
 		label: 'Example: john@doe.com, jane@doe.net',

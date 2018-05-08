@@ -12,7 +12,7 @@ const getListStyle = isDraggingOver => ({
 
 class ChoiceList extends Component {
 	render() {
-		const { indexCard } = this.props;
+		const { indexCard, questionId } = this.props;
 		return (
 			<div
 				style={{
@@ -29,6 +29,7 @@ class ChoiceList extends Component {
 							style={getListStyle(snapshot.isDraggingOver)}>
 							{this.props.choices.map(({ choice, _id, index }, i) => (
 								<Choice
+									questionId={questionId}
 									key={_id}
 									id={_id}
 									index={i}

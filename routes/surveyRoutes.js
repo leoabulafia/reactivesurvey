@@ -66,7 +66,6 @@ module.exports = app => {
 
 	//fetches individual survey
 	app.post('/api/survey', requireLogin, (req, res) => {
-		console.log('/API/SURVEY', req.body);
 		Survey.findOne({ surveykey: req.body.id }).then(survey => {
 			res.send(survey);
 		});
@@ -74,7 +73,6 @@ module.exports = app => {
 
 	//creates a new survey
 	app.post('/api/newsurvey', requireLogin, (req, res) => {
-		console.log(req.body);
 		const { title, surveykey } = req.body;
 		const survey = new Survey({
 			title,
@@ -87,10 +85,32 @@ module.exports = app => {
 		} catch (e) {}
 	});
 
+	//delete survey
+	app.post('/api/deletesurvey', requireLogin, (req, res) => {
+		const { surveyId } = req.body;
+		Survey.findOneAndRemove({ _id: surveyId }, (err, survey) => {
+			return survey;
+		});
+		res.send({});
+	});
+
+	//change survey title
+	app.post('/api/changetitle', requireLogin, (req, res) => {
+		const { changeTitle, surveyId } = req.body;
+		Survey.findOne({ _id: surveyId }, (err, survey) => {
+			survey.title = changeTitle;
+			survey.save(err => {
+				if (err) {
+					console.error(err);
+				}
+			});
+			res.send(survey);
+		});
+	});
+
 	//creates a new question
 	app.post('/api/newquestion', requireLogin, (req, res) => {
 		const { question, surveyid, index } = req.body;
-		console.log(req.body);
 		const questionElem = {
 			question: question,
 			index: index
@@ -108,7 +128,6 @@ module.exports = app => {
 
 	//deletes a question (card)
 	app.post('/api/deletequestion', requireLogin, (req, res) => {
-		console.log(req.body);
 		const { id, surveyId } = req.body;
 		Survey.findOneAndUpdate(
 			{ _id: surveyId },
@@ -120,6 +139,21 @@ module.exports = app => {
 			}
 		);
 		res.send({});
+	});
+
+	//change question text
+	app.post('/api/editquestion', requireLogin, (req, res) => {
+		const { question, surveyId, questionId } = req.body;
+		Survey.findOne({ _id: surveyId }, (err, survey) => {
+			let selectedQuestion = filteredElement(survey.questions, questionId);
+			selectedQuestion.question = question;
+			survey.save(err => {
+				if (err) {
+					console.error(err);
+				}
+			});
+			res.send(survey);
+		});
 	});
 
 	//creates a new choice (answer)
@@ -134,6 +168,38 @@ module.exports = app => {
 				q => q._id.toString() === questionid
 			);
 			filteredQuestion[0].choices.push(choiceObj);
+			survey.save(err => {
+				if (err) {
+					console.error(err);
+				}
+			});
+			res.send(survey.questions);
+		});
+	});
+
+	//edits a choice (answer)
+	app.post('/api/editchoice', requireLogin, (req, res) => {
+		console.log('Edit choice', req.body);
+		const { choice, choiceId, surveyId, questionId } = req.body;
+		Survey.findOne({ _id: surveyId }, (err, survey) => {
+			let selectedQuestion = filteredElement(survey.questions, questionId);
+			let selectedChoice = filteredElement(selectedQuestion.choices, choiceId);
+			selectedChoice.choice = choice;
+			survey.save(err => {
+				if (err) {
+					console.error(err);
+				}
+			});
+			res.send(survey.questions);
+		});
+	});
+
+	//deletes a choice (answer)
+	app.post('/api/deletechoice', requireLogin, (req, res) => {
+		const { questionId, surveyId, choiceIndex } = req.body;
+		Survey.findOne({ _id: surveyId }, (err, survey) => {
+			let selectedQuestion = filteredElement(survey.questions, questionId);
+			selectedQuestion.choices.splice(choiceIndex, 1);
 			survey.save(err => {
 				if (err) {
 					console.error(err);
@@ -420,4 +486,9 @@ const funcFilter = arr => {
 		newArr.push(oldArr[i].id);
 	}
 	return newArr;
+};
+
+//filters object from an array (question, recipient, choice, etc)
+const filteredElement = (arr, id) => {
+	return arr.filter(q => q.id.toString() === id)[0];
 };

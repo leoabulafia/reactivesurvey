@@ -39,6 +39,19 @@ a {
 	bottom: 50px;
 }
 
+.choiceHover:hover {
+	filter: brightness(95%);
+}
+
+.choiceHover:hover .editHover {
+	visibility: visible;
+	filter: brightness(80%);
+}
+
+.editHover {
+	visibility: hidden;
+}
+
 .howitworks {
 	background: #424242;
 	align-items: center;

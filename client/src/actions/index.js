@@ -93,6 +93,29 @@ export const createSurvey = (values, history) => dispatch => {
 	});
 };
 
+export const deleteSurvey = values => dispatch => {
+	console.log('DELETE', values);
+	axios.post('/api/deletesurvey', values).then(res => {
+		dispatch({ type: FETCH_ELEMENT, payload: res.data });
+	});
+};
+
+export const changeTitle = values => dispatch => {
+	return new Promise((resolve, reject) => {
+		axios.post('/api/changetitle', values).then(res => {
+			if (res.data === false) {
+				const errorSubmit = new SubmissionError({
+					_error: ' '
+				});
+				reject(errorSubmit);
+			} else {
+				dispatch({ type: FETCH_ELEMENT, payload: res.data });
+				resolve();
+			}
+		});
+	});
+};
+
 export const createQuestion = values => dispatch => {
 	console.log('values: ', values);
 	return new Promise((resolve, reject) => {
@@ -116,6 +139,22 @@ export const deleteQuestion = values => dispatch => {
 	});
 };
 
+export const editQuestion = values => dispatch => {
+	return new Promise((resolve, reject) => {
+		axios.post('/api/editquestion', values).then(res => {
+			if (res.data === false) {
+				const errorSubmit = new SubmissionError({
+					_error: ' '
+				});
+				reject(errorSubmit);
+			} else {
+				dispatch({ type: FETCH_SURVEY, payload: res.data });
+				resolve();
+			}
+		});
+	});
+};
+
 export const createChoice = values => dispatch => {
 	return new Promise((resolve, reject) => {
 		axios.post('/api/newchoice', values).then(res => {
@@ -129,6 +168,28 @@ export const createChoice = values => dispatch => {
 				resolve();
 			}
 		});
+	});
+};
+
+export const editChoice = values => dispatch => {
+	return new Promise((resolve, reject) => {
+		axios.post('/api/editchoice', values).then(res => {
+			if (res.data === false) {
+				const errorSubmit = new SubmissionError({
+					_error: ' '
+				});
+				reject(errorSubmit);
+			} else {
+				dispatch({ type: FETCH_CHOICES, payload: res.data });
+				resolve();
+			}
+		});
+	});
+};
+
+export const deleteChoice = values => dispatch => {
+	axios.post('/api/deletechoice', values).then(res => {
+		dispatch({ type: FETCH_CHOICES, payload: res.data });
 	});
 };
 

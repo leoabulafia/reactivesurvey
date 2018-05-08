@@ -5,6 +5,7 @@ import { Draggable } from 'react-beautiful-dnd';
 //components
 import AddChoice from './AddChoice';
 import ChoiceList from './ChoiceList';
+import EditQuestion from './EditQuestion';
 //style components
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
@@ -35,7 +36,7 @@ const styles = theme => ({
 	}
 });
 
-const options = ['Rename', 'Delete'];
+const options = ['Delete'];
 
 const ITEM_HEIGHT = 48;
 
@@ -58,6 +59,8 @@ class QuestionCard extends Component {
 			};
 			deleteQuestion(payload);
 			fetchSurvey(location);
+		}
+		if (option === 'Rename') {
 		}
 		this.setState({ anchorEl: null });
 	};
@@ -132,6 +135,10 @@ class QuestionCard extends Component {
 													label="Multiple Select"
 												/>
 											</MenuItem>
+											<EditQuestion
+												questionId={id}
+												onMenuClose={this.handleClose}
+											/>
 											{options.map(option => (
 												<MenuItem
 													key={option}
@@ -141,7 +148,11 @@ class QuestionCard extends Component {
 											))}
 										</Menu>
 									</div>
-									<ChoiceList choices={choices} indexCard={index} />
+									<ChoiceList
+										choices={choices}
+										indexCard={index}
+										questionId={id}
+									/>
 									<AddChoice
 										id={id}
 										location={location}

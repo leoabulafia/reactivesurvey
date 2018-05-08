@@ -11,6 +11,7 @@ export default ({
 	formFieldsType,
 	label,
 	style,
+	getValue,
 	meta: { error, touched }
 }) => {
 	const helperText = () => {
@@ -37,6 +38,7 @@ export default ({
 				type={formFieldsType}
 				label={label}
 				margin="normal"
+				value={getValue}
 				style={style}
 				fullWidth={setFullWidth}
 				{...input}

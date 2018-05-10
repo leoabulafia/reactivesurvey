@@ -5,23 +5,9 @@ import flow from 'lodash/flow';
 import { fetchSurvey, setDrawer } from '../actions';
 import classNames from 'classnames';
 import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
-import { MenuItem } from 'material-ui/Menu';
-import Typography from 'material-ui/Typography';
-import TextField from 'material-ui/TextField';
-import Divider from 'material-ui/Divider';
 import Hidden from 'material-ui/Hidden';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
-import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
-import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 //components
 import DrawerList from './DrawerList';
-import MobileMenu from './MobileMenu';
-import SurveyDrawer from './survey/SurveyDrawer';
-import QuestionList from './survey/QuestionList';
 
 const drawerWidth = 240;
 

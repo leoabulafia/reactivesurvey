@@ -9,7 +9,7 @@ import {
 } from '../authForms/formFields';
 import AuthField from '../authForms/AuthField';
 import validateEmails from '../../utilities/validateEmails';
-import { setDrawer, addEmails, fetchSurvey } from '../../actions';
+import { addEmails } from '../../actions';
 //styles
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -83,14 +83,7 @@ class EmailSubject extends Component {
 		);
 	}
 	render() {
-		const {
-			classes,
-			handleSubmit,
-			error,
-			reset,
-			sendEmail,
-			survey
-		} = this.props;
+		const { classes, handleSubmit, survey } = this.props;
 		return (
 			<div>
 				<AddEmails survey={survey} />
@@ -184,9 +177,7 @@ class EmailSubject extends Component {
 
 const validate = values => {
 	const errors = {};
-
 	errors.recipients = validateEmails(values.recipients || '');
-
 	[...addEmailsFields, ...emailSubjectFields, ...emailBodyFields].forEach(
 		({ name, noValue }) => {
 			if (!values[name]) {
@@ -194,14 +185,13 @@ const validate = values => {
 			}
 		}
 	);
-	console.log(errors);
 	return errors;
 };
 
 const mapStateToProps = ({ survey }) => ({ survey });
 
 export default flow(
-	connect(mapStateToProps, { addEmails, fetchSurvey }),
+	connect(mapStateToProps, { addEmails }),
 	reduxForm({
 		form: 'emailSubjectForm',
 		validate,

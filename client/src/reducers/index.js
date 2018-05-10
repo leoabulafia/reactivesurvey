@@ -6,7 +6,6 @@ import surveyReducer from './surveyReducer';
 import emailReducer from './emailReducer';
 import elementListReducer from './elementListReducer';
 import elementReducer from './elementReducer';
-import choicesReducer from './choicesReducer';
 import selectMultipleReducer from './selectMultipleReducer';
 
 export default combineReducers({

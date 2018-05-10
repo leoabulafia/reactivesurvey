@@ -7,12 +7,9 @@ import Divider from 'material-ui/Divider';
 import SettingsIcon from 'material-ui-icons/Settings';
 import DashboardIcon from 'material-ui-icons/Dashboard';
 import EmailIcon from 'material-ui-icons/Email';
-import GithubCircle from 'mdi-material-ui/GithubCircle';
-import LogoutIcon from 'mdi-material-ui/Logout';
 import HideIcon from 'mdi-material-ui/EyeOffOutline';
 import PollIcon from 'material-ui-icons/Poll';
 import PieChartIcon from 'material-ui-icons/PieChart';
-import ZoomOutMapIcon from 'material-ui-icons/ZoomOutMap';
 //components
 import Preview from './survey/Preview';
 //actions

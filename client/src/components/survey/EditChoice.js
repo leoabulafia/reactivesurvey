@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { editChoice, deleteChoice, fetchSurvey } from '../../actions';
+import { editChoice, deleteChoice } from '../../actions';
 //components
 import AuthField from '../authForms/AuthField';
-import DashboardButton from '../dashboard/DashboardButton';
 //style components
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
-import { MenuItem } from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 //icons
 import ModeEditIcon from 'material-ui-icons/ModeEdit';
@@ -59,15 +57,12 @@ class EditChoice extends Component {
 			handleSubmit,
 			editChoice,
 			deleteChoice,
-			fetchSurvey,
 			survey,
-			location,
 			reset,
 			questionId,
 			choiceText,
 			choiceId,
-			choiceIndex,
-			onMenuClose
+			choiceIndex
 		} = this.props;
 		return (
 			<div style={{ position: 'relative' }}>
@@ -176,8 +171,7 @@ const mapStateToProps = ({ survey }) => {
 
 export default connect(mapStateToProps, {
 	editChoice,
-	deleteChoice,
-	fetchSurvey
+	deleteChoice
 })(
 	reduxForm({ form: 'editChoice', validate, destroyOnUnmount: false })(
 		EditChoice

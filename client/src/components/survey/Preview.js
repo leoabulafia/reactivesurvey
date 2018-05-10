@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { selectQuestion, fetchSurvey } from '../../actions';
+import { selectQuestion } from '../../actions';
 //styles
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
@@ -13,13 +13,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import ExpansionPanel, {
-	ExpansionPanelSummary,
-	ExpansionPanelDetails,
-	ExpansionPanelActions
-} from 'material-ui/ExpansionPanel';
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
+import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 //components
 import Survey from './Survey';
 //icons
@@ -65,7 +59,7 @@ class Preview extends Component {
 	};
 
 	handleSelect = index => () => {
-		const { selectQuestion, survey, fetchSurvey, location } = this.props;
+		const { selectQuestion, survey } = this.props;
 		const payload = {
 			questionIndex: index,
 			surveyId: survey._id
@@ -75,8 +69,7 @@ class Preview extends Component {
 	};
 
 	render() {
-		const { classes, survey, location } = this.props;
-		const { expanded } = this.state;
+		const { classes } = this.props;
 		return (
 			<div>
 				<ListItem button onClick={this.handleClickOpen}>
@@ -123,7 +116,7 @@ class Preview extends Component {
 const mapStateToProps = ({ survey }) => ({ survey });
 
 export default flow(
-	connect(mapStateToProps, { selectQuestion, fetchSurvey }),
+	connect(mapStateToProps, { selectQuestion }),
 	withStyles(styles),
 	withRouter
 )(Preview);

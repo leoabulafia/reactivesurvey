@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { fetchSurvey, createChoice } from '../../actions';
+import { createChoice } from '../../actions';
 //components
 import AuthField from '../authForms/AuthField';
 import DashboardButton from '../dashboard/DashboardButton';
@@ -53,10 +53,8 @@ class AddChoice extends Component {
 
 		const {
 			handleSubmit,
-			fetchSurvey,
 			createChoice,
 			survey,
-			location,
 			reset,
 			id,
 			questionIndex
@@ -141,7 +139,7 @@ const mapStateToProps = ({ survey }) => {
 	return { survey };
 };
 
-export default connect(mapStateToProps, { createChoice, fetchSurvey })(
+export default connect(mapStateToProps, { createChoice })(
 	reduxForm({
 		form: 'AddChoice',
 		validate,

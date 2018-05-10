@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { createQuestion, fetchSurvey } from '../../actions';
+import { createQuestion } from '../../actions';
 //components
 import AuthField from '../authForms/AuthField';
 import DashboardButton from '../dashboard/DashboardButton';
@@ -51,14 +51,7 @@ class AddQuestion extends Component {
 			anchorReference
 		} = this.state;
 
-		const {
-			handleSubmit,
-			createQuestion,
-			fetchSurvey,
-			survey,
-			location,
-			reset
-		} = this.props;
+		const { handleSubmit, createQuestion, survey, reset } = this.props;
 		return (
 			<div>
 				<DashboardButton
@@ -134,7 +127,7 @@ const mapStateToProps = ({ survey }) => {
 	return { survey };
 };
 
-export default connect(mapStateToProps, { createQuestion, fetchSurvey })(
+export default connect(mapStateToProps, { createQuestion })(
 	reduxForm({ form: 'addQuestion', validate, destroyOnUnmount: false })(
 		AddQuestion
 	)

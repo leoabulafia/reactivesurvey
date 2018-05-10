@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { editQuestion, fetchSurvey } from '../../actions';
+import { editQuestion } from '../../actions';
 //components
 import AuthField from '../authForms/AuthField';
-import DashboardButton from '../dashboard/DashboardButton';
 //style components
 import Button from 'material-ui/Button';
 import { MenuItem } from 'material-ui/Menu';
@@ -55,9 +54,7 @@ class EditQuestion extends Component {
 		const {
 			handleSubmit,
 			editQuestion,
-			fetchSurvey,
 			survey,
-			location,
 			reset,
 			questionId,
 			onMenuClose
@@ -131,7 +128,7 @@ const mapStateToProps = ({ survey }) => {
 	return { survey };
 };
 
-export default connect(mapStateToProps, { editQuestion, fetchSurvey })(
+export default connect(mapStateToProps, { editQuestion })(
 	reduxForm({ form: 'editQuestionTitle', validate, destroyOnUnmount: false })(
 		EditQuestion
 	)

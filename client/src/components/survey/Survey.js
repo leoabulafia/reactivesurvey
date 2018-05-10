@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import flow from 'lodash/flow';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
-import { reduxForm, submit } from 'redux-form';
 //style components
 import Button from 'material-ui/Button';
 import Card, { CardContent } from 'material-ui/Card';
@@ -233,7 +231,6 @@ class Survey extends Component {
 	}
 
 	render() {
-		const { classes } = this.props;
 		return (
 			<div style={{ display: 'flex', justifyContent: 'center' }}>
 				{this.renderContent()}

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import { deleteEmailAddress, fetchSurvey } from '../../actions';
 import Chip from 'material-ui/Chip';
-import Paper from 'material-ui/Paper';
 
 //style components
 

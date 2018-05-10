@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchSurvey, setDrawer } from '../../actions';
-import {
-	ResponsiveContainer,
-	PieChart,
-	Pie,
-	Sector,
-	Cell,
-	Legend
-} from 'recharts';
+import { PieChart, Pie, Cell, Legend } from 'recharts';
 //style components
-import Chip from 'material-ui/Chip';
 import Typography from 'material-ui/Typography';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = [
+	'#9C27B0',
+	'#00BCD4',
+	'#4CAF50',
+	'#F44336',
+	'#FF9800',
+	'#0088FE',
+	'#00C49F',
+	'#FFBB28',
+	'#FF8042'
+];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -97,4 +98,4 @@ class Feedback extends Component {
 
 const mapStateToProps = ({ survey, drawer }) => ({ survey, drawer });
 
-export default connect(mapStateToProps, { fetchSurvey, setDrawer })(Feedback);
+export default connect(mapStateToProps)(Feedback);

@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
-import { Field } from 'redux-form';
 //style components
-import Button from 'material-ui/Button';
 import Checkbox from 'material-ui/Checkbox';
-import { FormControl, FormControlLabel } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import Typography from 'material-ui/Typography';
-//components
-import CheckboxField from './CheckboxField';
 //actions
 import { setElection, selectMultiple, toggleMultiple } from '../../actions';
 
@@ -36,7 +32,6 @@ class ChoiceSurvey extends Component {
 		const { selectedChoices, selectMultiple, toggleMultiple } = this.props;
 		this.setState({ isChecked: !this.state.isChecked });
 		let filtered = selectedChoices.filter(choice => choice.id === id);
-		console.log('FILTERED, ', filtered);
 		if (filtered.length > 0) {
 			toggleMultiple(id);
 		} else {
@@ -44,9 +39,6 @@ class ChoiceSurvey extends Component {
 		}
 	};
 	handleChoice = () => {
-		if (this.props.question.multipleSelect) {
-			console.log('multipleActivated');
-		}
 		const { id, question, surveyid, emailKey } = this.props;
 		let questionId = question._id;
 		const payload = { id, questionId, surveyid, emailKey };

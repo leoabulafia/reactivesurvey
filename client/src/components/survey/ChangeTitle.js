@@ -43,7 +43,7 @@ class ChangeTitle extends React.Component {
 	};
 
 	closeSuccessDialog = () => {
-		const { history, surveyKey, surveyTitle, form } = this.props;
+		const { history, surveyKey, form } = this.props;
 		let newSurveyTitle = form.changeSurveyTitle.values.changeTitle.replace(
 			/\s/g,
 			''
@@ -78,15 +78,12 @@ class ChangeTitle extends React.Component {
 
 	render() {
 		const {
-			auth,
 			fullScreen,
 			handleSubmit,
 			changeTitle,
 			error,
 			surveyId,
-			surveyTitle,
-			surveyKey,
-			history
+			surveyTitle
 		} = this.props;
 
 		return (

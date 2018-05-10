@@ -11,7 +11,6 @@ import EmailConfirmed from './authForms/EmailConfirmed';
 import Header from './Header';
 import ForgotPassword from './authForms/ForgotPassword';
 import Landing from './landing/Landing';
-import MainDrawer from './MainDrawer';
 import RecoveryEmailSent from './authForms/RecoveryEmailSent';
 import ResetPassword from './authForms/ResetPassword';
 import Results from './survey/Results';

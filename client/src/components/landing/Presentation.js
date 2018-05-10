@@ -2,9 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 //style components
 import Button from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
 import Typography from 'material-ui/Typography';
-import Sync from 'material-ui-icons/Sync';
 //image
 import bgImage from '../../images/background.jpg';
 

@@ -1,6 +1,5 @@
 import React from 'react';
 //components
-import HowItWorks from './HowItWorks';
 import Presentation from './Presentation';
 
 const Landing = () => (

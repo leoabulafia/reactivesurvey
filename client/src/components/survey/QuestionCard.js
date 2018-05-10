@@ -9,7 +9,7 @@ import EditQuestion from './EditQuestion';
 //style components
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import IconButton from 'material-ui/IconButton';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import Switch from 'material-ui/Switch';
@@ -86,7 +86,6 @@ class QuestionCard extends Component {
 			question,
 			surveyId,
 			id,
-			multipleSelect,
 			choices,
 			draggableId,
 			index

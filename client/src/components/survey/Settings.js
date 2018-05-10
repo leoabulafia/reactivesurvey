@@ -2,17 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import flow from 'lodash/flow';
-import { fetchSurvey, setDrawer } from '../../actions';
-import classNames from 'classnames';
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
+import { fetchSurvey } from '../../actions';
 import List from 'material-ui/List';
-import { MenuItem } from 'material-ui/Menu';
 import Typography from 'material-ui/Typography';
-import TextField from 'material-ui/TextField';
-import Divider from 'material-ui/Divider';
-import Chip from 'material-ui/Chip';
 //components
 import MainDrawer from '../MainDrawer';
 import ChangeTitle from './ChangeTitle';
@@ -91,20 +83,8 @@ class Settings extends Component {
 		this.props.fetchSurvey(location);
 	}
 
-	handleOpen = () => {
-		this.props.setDrawer(true);
-	};
-
 	renderContent() {
-		const { survey, classes, drawer } = this.props;
-		const styleOpen = {
-			top: '64px',
-			left: 240
-		};
-		const styleClosed = {
-			top: '64px',
-			left: 0
-		};
+		const { survey, classes } = this.props;
 		switch (survey) {
 			case null:
 				return;
@@ -131,7 +111,6 @@ class Settings extends Component {
 	}
 
 	render() {
-		const { open } = this.props;
 		return <div>{this.renderContent()}</div>;
 	}
 }
@@ -139,6 +118,6 @@ class Settings extends Component {
 const mapStateToProps = ({ survey, drawer }) => ({ survey, drawer });
 
 export default flow(
-	connect(mapStateToProps, { fetchSurvey, setDrawer }),
+	connect(mapStateToProps, { fetchSurvey }),
 	withStyles(styles, { withTheme: true })
 )(Settings);

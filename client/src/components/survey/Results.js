@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchSurvey, setDrawer } from '../../actions';
-import {
-	ResponsiveContainer,
-	PieChart,
-	Pie,
-	Sector,
-	Cell,
-	Legend
-} from 'recharts';
+import { fetchSurvey } from '../../actions';
 //style components
 import Chip from 'material-ui/Chip';
 import List from 'material-ui/List';
@@ -36,9 +28,6 @@ class Results extends Component {
 		this.props.fetchSurvey(location);
 	}
 
-	handleOpen = () => {
-		this.props.setDrawer(true);
-	};
 	renderContent() {
 		const { survey } = this.props;
 		const { expanded } = this.state;
@@ -49,15 +38,6 @@ class Results extends Component {
 				return (
 					<MainDrawer surveykey={survey.surveykey} title={survey.title}>
 						<Typography variant="headline">See your survey results</Typography>
-						{this.props.drawer ? (
-							<div />
-						) : (
-							<Chip
-								style={{ margin: '9px 10px 5px 10px' }}
-								onClick={this.handleOpen}
-								label="... Show Options"
-							/>
-						)}
 						<Typography variant="subheading">Questions:</Typography>
 						<List>
 							{survey.questions.map(({ _id, question, choices, index }, i) => {
@@ -88,4 +68,4 @@ class Results extends Component {
 
 const mapStateToProps = ({ survey, drawer }) => ({ survey, drawer });
 
-export default connect(mapStateToProps, { fetchSurvey, setDrawer })(Results);
+export default connect(mapStateToProps, { fetchSurvey })(Results);

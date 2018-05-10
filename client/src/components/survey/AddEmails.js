@@ -8,20 +8,16 @@ import validateEmails from '../../utilities/validateEmails';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
-import Chip from 'material-ui/Chip';
 import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 //icons
 import AddIcon from 'mdi-material-ui/PlusCircle';
-import DoneIcon from 'material-ui-icons/Done';
 //components
 import AuthField from '../authForms/AuthField';
-import ChooseQuestion from './ChooseQuestion';
 import MailList from './MailList';
-import MainDrawer from '../MainDrawer';
 //actions
-import { setDrawer, addEmails, fetchSurvey } from '../../actions';
+import { addEmails, fetchSurvey } from '../../actions';
 //helpers
 import { addEmailsFields } from '../authForms/formFields';
 
@@ -69,7 +65,6 @@ class AddEmails extends Component {
 			error,
 			handleSubmit,
 			addEmails,
-			history,
 			survey,
 			fetchSurvey,
 			reset
@@ -140,7 +135,7 @@ const validate = values => {
 const mapStateToProps = ({ drawer, survey }) => ({ drawer, survey });
 
 export default flow(
-	connect(mapStateToProps, { setDrawer, addEmails, fetchSurvey }),
+	connect(mapStateToProps, { addEmails, fetchSurvey }),
 	reduxForm({
 		validate,
 		form: 'addEmailsForm',

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addEmailsFields } from '../authForms/formFields';
-import validateEmails from '../../utilities/validateEmails';
-import { selectQuestion, fetchSurvey } from '../../actions';
+import { selectQuestion } from '../../actions';
 //styles
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
@@ -73,7 +71,7 @@ class ChooseQuestion extends Component {
 	};
 
 	render() {
-		const { classes, survey, location } = this.props;
+		const { classes, survey } = this.props;
 		const { expanded } = this.state;
 		return (
 			<div style={{ marginTop: '24px', marginBottom: '18px' }}>
@@ -178,6 +176,6 @@ class ChooseQuestion extends Component {
 
 const mapStateToProps = ({ survey }) => ({ survey });
 
-export default connect(mapStateToProps, { selectQuestion, fetchSurvey })(
+export default connect(mapStateToProps, { selectQuestion })(
 	withStyles(styles)(ChooseQuestion)
 );

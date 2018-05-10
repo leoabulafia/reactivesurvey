@@ -2,10 +2,6 @@ import React from 'react';
 import flow from 'lodash/flow';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
-import { changeTitleFields } from '../authForms/formFields';
-//components
-import AuthField from '../authForms/AuthField';
 //style components
 import Button from 'material-ui/Button';
 import Dialog, {
@@ -15,7 +11,6 @@ import Dialog, {
 	DialogTitle,
 	withMobileDialog
 } from 'material-ui/Dialog';
-import LockIcon from 'material-ui-icons/Lock';
 import DeleteForeverIcon from 'material-ui-icons/DeleteForever';
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 //actions

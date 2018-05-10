@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import flow from 'lodash/flow';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 //style components
 import { withStyles } from 'material-ui/styles';
-import GridList from 'material-ui/GridList';
 //components
 import QuestionCard from './QuestionCard';
 import AddQuestion from './AddQuestion';
 //actions
-import { reorderQuestions, reorderChoices, fetchSurvey } from '../../actions';
+import { reorderQuestions, reorderChoices } from '../../actions';
 
 const styles = theme => ({
 	gridList: {
@@ -39,11 +38,6 @@ const reorder = (list, startIndex, endIndex) => {
 	result.splice(endIndex, 0, removed);
 
 	return result;
-};
-
-//fetches choices(answers)
-const fetchOptions = (list, index) => {
-	return list[index].choices;
 };
 
 const grid = 8;
@@ -119,7 +113,6 @@ class QuestionList extends Component {
 	render() {
 		const { classes, location, survey } = this.props;
 		let result;
-		const sortedSurvey = survey.questions.sort(sortQuestions);
 		return (
 			<div
 				style={{ overflow: 'auto' }}
@@ -162,6 +155,6 @@ const mapStateToProps = ({ survey }) => {
 };
 
 export default flow(
-	connect(mapStateToProps, { fetchSurvey, reorderQuestions, reorderChoices }),
+	connect(mapStateToProps, { reorderQuestions, reorderChoices }),
 	withStyles(styles)
 )(QuestionList);

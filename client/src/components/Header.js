@@ -13,8 +13,6 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 //icons
 import MenuIcon from 'material-ui-icons/Menu';
-//components
-import MobileMenu from './MobileMenu';
 //actions
 import { setDrawer } from '../actions';
 
@@ -66,7 +64,7 @@ class Header extends Component {
 		}
 	}
 	renderHeader() {
-		const { classes, location, survey } = this.props;
+		const { classes, survey } = this.props;
 		if (splitString(this.props.location.pathname, '/')[0] === 'survey') {
 			switch (survey) {
 				case null:
@@ -111,7 +109,6 @@ class Header extends Component {
 		);
 	}
 	render() {
-		const { survey } = this.props;
 		return <div>{this.renderHeader()}</div>;
 	}
 }

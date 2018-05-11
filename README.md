@@ -1,4 +1,4 @@
-# Pick Up Surveys
+# Create Your Reactive Survey
 
 ## Idea
 
@@ -13,7 +13,7 @@ The differences with other well known survey apps are:
 
 ## How it Works
 
-With SurveyZilla you choose a title for your survey and start creating it in an easy and fun way.
+With ReactiveSurvey you choose a title for your survey and start creating it in an easy and fun way.
 Every question you create is a card in a board.
 You can add ‘choices’ (possible answers) to those cards.
 You can drag & drop around the cards and the answers to your preference sequence.
@@ -58,4 +58,3 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-

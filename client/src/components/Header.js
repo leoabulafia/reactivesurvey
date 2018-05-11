@@ -64,7 +64,18 @@ class Header extends Component {
 		}
 	}
 	renderHeader() {
-		const { classes, survey } = this.props;
+		const { classes, survey, auth } = this.props;
+		const menuIcon = auth ? (
+			<IconButton
+				className={classes.menuButton}
+				color="inherit"
+				aria-label="Menu"
+				onClick={this.toggleDrawer}>
+				<MenuIcon />
+			</IconButton>
+		) : (
+			<div />
+		);
 		if (splitString(this.props.location.pathname, '/')[0] === 'survey') {
 			switch (survey) {
 				case null:
@@ -87,20 +98,14 @@ class Header extends Component {
 		return (
 			<AppBar position="sticky">
 				<Toolbar>
-					<IconButton
-						className={classes.menuButton}
-						color="inherit"
-						aria-label="Menu"
-						onClick={this.toggleDrawer}>
-						<MenuIcon />
-					</IconButton>
+					{menuIcon}
 
 					<Hidden xsDown>
 						<Typography
 							variant="title"
 							color="inherit"
 							className={classes.flex}>
-							MailSurveys
+							Your Reactive Survey
 						</Typography>
 						{this.renderContent()}
 					</Hidden>

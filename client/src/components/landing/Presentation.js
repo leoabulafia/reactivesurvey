@@ -19,34 +19,28 @@ const styles = {
 		width: '50%'
 	},
 	bg: {
-		minHeight: 'calc(100vh + 80px)',
 		backgroundImage: `url(${bgImage})`
-	},
-	bgLayer: {
-		backgroundColor: 'rgba(0, 0, 128, 0.3)',
-		width: '100%',
-		minHeight: 'calc(100vh + 80px)'
 	}
 };
 
 export default () => {
 	return (
 		<div style={styles.bg} className="bg">
-			<div style={styles.bgLayer}>
+			<div className="bgLayer">
 				<div style={{ height: '96px', width: '96px' }} />
 				<Typography
 					style={styles.typo}
 					variant="display2"
 					align="center"
 					color="inherit">
-					Ask, Sync<br />Improve
+					Create a<br />Reactive Survey
 				</Typography>
 				<Typography
 					style={styles.typo}
 					variant="headline"
 					align="center"
 					color="inherit">
-					Get Valuable Feedback
+					And Get Valuable Feedback
 				</Typography>
 				<Button
 					component={Link}
